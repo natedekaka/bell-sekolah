@@ -1,0 +1,13 @@
+# Lindungi folder backups/ dari akses web langsung.
+# File backup memuat data sensitif (termasuk hash password users).
+
+<IfModule mod_authz_core.c>
+    # Apache 2.4+
+    Require all denied
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    # Apache 2.2
+    Order allow,deny
+    Deny from all
+</IfModule>

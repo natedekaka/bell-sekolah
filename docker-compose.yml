@@ -1,0 +1,68 @@
+services:
+  app:
+    build: .
+    container_name: bell-sekolah-app
+    user: root
+    ports:
+      - "9310:80"
+    volumes:
+      - .:/var/www/html:z
+    environment:
+      - DB_HOST=db
+      - DB_NAME=bell_sekolah
+      - DB_USER=bell_user
+      - DB_PASS=bell_pass_2026
+      - DB_PORT=3306
+      - TZ=Asia/Jakarta
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - bell-sekolah-net
+    restart: unless-stopped
+
+  db:
+    image: docker.io/library/mariadb:10.11
+    container_name: bell-sekolah-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: bell_sekolah
+      MYSQL_USER: bell_user
+      MYSQL_PASSWORD: bell_pass_2026
+      TZ: Asia/Jakarta
+    ports:
+      - "3311:3306"
+    volumes:
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - bell-sekolah-dbdata:/var/lib/mysql:z
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - bell-sekolah-net
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: docker.io/library/phpmyadmin:latest
+    container_name: bell-sekolah-pma
+    ports:
+      - "9311:80"
+    environment:
+      PMA_HOST: db
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 64M
+    depends_on:
+      - db
+    networks:
+      - bell-sekolah-net
+    restart: unless-stopped
+
+volumes:
+  bell-sekolah-dbdata:
+
+networks:
+  bell-sekolah-net:
+    driver: bridge

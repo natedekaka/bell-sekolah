@@ -1,0 +1,7 @@
+# Penghalang listing direktori uploads
+Options -Indexes
+
+# File audio tetap bisa dibuka via browser (dipakai <audio>)
+<FilesMatch "\.(mp3|wav|ogg|webm)$">
+    Require all granted
+</FilesMatch>

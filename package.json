@@ -1,0 +1,13 @@
+{
+  "name": "bell-sekolah",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i assets/css/main.css -o assets/css/app.css --watch",
+    "build": "npx @tailwindcss/cli -i assets/css/main.css -o assets/css/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "tailwindcss": "^4.3.0"
+  }
+}

@@ -1,0 +1,23 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Log
+*.log
+
+# Env
+.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# System
+.DS_Store
+Thumbs.db
+
+# Backup sementara (file backup .json ada di proses backup, disimpan di folder backups/)
+backups/tmp/
+# File backup berisi data sensitif (hash password) — jangan masuk git
+backups/*.json
